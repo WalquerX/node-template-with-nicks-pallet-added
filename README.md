@@ -3,18 +3,23 @@ added nicks pallet to node template version 1.9 for answering a [SE question](ht
 
 1. Start with the substrate node template version 1.9.0, (im fixing the commit in the command):
 
+    ```
     git clone git@github.com:substrate-developer-hub/substrate-node-template.git --branch main --single-branch --depth 1 --no-checkout && \
     cd substrate-node-template && \
     git checkout d70f8f9793cdd869571c21d7253faa50baaa5c5b
+    ```
 
 2. Make sure it compiles:
 
+    ```
     cargo build --release
+    ```
 
 3. Copy nicks pallet [source code](https://github.com/paritytech/substrate/tree/master/frame/nicks) to /note-template/pallets/nicks/
 
 4. In ./nicks/Cargo.toml, change the declarations that use local paths to git paths:
 
+    ```toml
     ...
     [dependencies]
     codec = { package = "parity-scale-codec", version = "3.6.1", default-features = false, features = ["derive"] }
@@ -29,9 +34,11 @@ added nicks pallet to node template version 1.9 for answering a [SE question](ht
     pallet-balances = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "polkadot-v1.9.0" }
     sp-core = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "polkadot-v1.9.0" }
     ...
+    ```
 
 5. In ./runtime/Cargo.toml, add to dependencies:
 
+    ```toml
     # The pallet in this template.
     pallet-template = { path = "../pallets/template", default-features = false }
     # Adding nicks pallet.
@@ -45,9 +52,11 @@ added nicks pallet to node template version 1.9 for answering a [SE question](ht
 	"pallet-nicks/std",
 	...
     ]
+    ```
     
 6. In the project root ./Cargo.toml, add pallets/nicks to the list of members:
 
+    ```toml
     [workspace]
     members = [
     "node",
@@ -55,15 +64,19 @@ added nicks pallet to node template version 1.9 for answering a [SE question](ht
     "pallets/nicks",
     "runtime",
     ]
+    ```
 
 7. Check all ok until this stage:
 
+    ```
     cargo check -p node-template-runtime --release
+    ```
 
 8. Implement the configuration for Nicks insisde the ./runtime/src/lib.rs
 
     * Add it to mod runtime:
 
+    ```rust
     #[frame_support::runtime]
     mod runtime {
         ...
@@ -76,9 +89,11 @@ added nicks pallet to node template version 1.9 for answering a [SE question](ht
         #[runtime::pallet_index(8)]
         pub type NicksModule = pallet_nicks;
     }
+    ```
 
     * And also include the pallet config implementation:
 
+    ```rust
     /// Configure the pallet-template in pallets/template.
     impl pallet_template::Config for Runtime {
         type RuntimeEvent = RuntimeEvent;
@@ -110,13 +125,18 @@ added nicks pallet to node template version 1.9 for answering a [SE question](ht
         // The ubiquitous event type.
         type RuntimeEvent = RuntimeEvent;
     }
+    ```
 
 8. Compile:
 
+    ```
     cargo build --release
+    ```
 
 9. Run it in dev mode for testing:
 
+    ```
     ./target/release/node-template --dev
+    ```
     
 
