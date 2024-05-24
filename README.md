@@ -20,7 +20,7 @@ added nicks pallet to node template version 1.9 for answering a [SE question](ht
 4. In ./nicks/Cargo.toml, change the declarations that use local paths to git paths:
 
     ```toml
-    ...
+    #...
     [dependencies]
     codec = { package = "parity-scale-codec", version = "3.6.1", default-features = false, features = ["derive"] }
     scale-info = { version = "2.5.0", default-features = false, features = ["derive"] }
@@ -33,7 +33,7 @@ added nicks pallet to node template version 1.9 for answering a [SE question](ht
     [dev-dependencies]
     pallet-balances = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "polkadot-v1.9.0" }
     sp-core = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "polkadot-v1.9.0" }
-    ...
+    #...
     ```
 
 5. In ./runtime/Cargo.toml, add to dependencies:
@@ -43,9 +43,10 @@ added nicks pallet to node template version 1.9 for answering a [SE question](ht
     pallet-template = { path = "../pallets/template", default-features = false }
     # Adding nicks pallet.
     pallet-nicks = { path = "../pallets/nicks", default-features = false }
-
+    ```
     and "pallet-nicks/std" to the list of features; 
 
+    ```toml
     std = [
 	...
 	"pallet-template/std",
